@@ -2,29 +2,56 @@ from models.contato import Contato
 from models.mensagem import Mensagem
 from ui.menu import imprimirMenuPrincipal, limparTela
 
-
+listaContatos = []
 # FUNÇÕES
-def AdicionarContato():
+def AdicionarContato(listaContatos):
     # ESCREVER LÓGICA AQUI!
+    nomeContato = input("Nome do contato: ")
+
+    #VERIFICA SE O CONTATO JÁ EXISTE NA LISTA
+    for contato in listaContatos:
+        if contato.nome == nomeContato:
+            print("\nContato existente!\n")
+            return
+            
+    numeroContato = input("numero do contato: ")
 
     # Exemplo de criação de um contato
-    contato = Contato("Nome do Contato", "Numero do Contato")
+    contato = Contato(nomeContato, numeroContato)
+    listaContatos.append(contato)
 
     print("Usuário Criado com Sucesso!")
     input("[APERTE ENTER PARA CONTINUAR]")
     limparTela()
 
-def MostrarContatos():
+def MostrarContatos(listaContatos):
     # ESCREVER LÓGICA AQUI
-
-    print("Mostrando lista de contatos")
+    print("Lista de contatos: ")
+    for contato in listaContatos:
+        print(f"Nome: {contato.nome}, Numero: {contato.numero}")
     input("[APERTE ENTER PARA CONTINUAR]")
     limparTela()
 
-def EditarContato():
+def EditarContato(listaContatos):
     # ESCREVER LÓGICA AQUI
+    print("Lista de contatos: ")
+    for i, contato in enumerate(listaContatos):
+        print(f"{i+1} Nome: {contato.nome}, Numero: {contato.numero}")
 
-    print("Contato editado com sucesso!")
+    indice = int(input("digite o numero de contato que deseja editar: ")) -1
+
+    if 0 <= indice < len(listaContatos):
+        novoContato = input("digite o novo nome do contato: ")
+        novoNumero = input("digite o novo numero do contato: ")
+
+        listaContatos[indice].nome = novoContato
+        listaContatos[indice].numero = novoNumero
+
+        print("\nSalvo!\n")
+    else:
+        print("inválido!")
+
+    #print("Contato editado com sucesso!")
     input("[APERTE ENTER PARA CONTINUAR]")
     limparTela()
 
@@ -39,6 +66,7 @@ def EscreverMensagem():
 
 
 # PROGRAMA PRINCIPAL
+
 print("===== SISTEMA DE MENSAGENS =====\n")
 
 fimPrograma = False
@@ -48,11 +76,11 @@ while not fimPrograma:
     opcao = input("Escolha uma das opções: ")
 
     if int(opcao) == 1:
-        AdicionarContato()
+        AdicionarContato(listaContatos)
     elif int(opcao) == 2:
-        MostrarContatos()
+        MostrarContatos(listaContatos)
     elif int(opcao) == 3:
-        EditarContato()
+        EditarContato(listaContatos)
     elif int(opcao) == 4:
         EscreverMensagem()
     elif int(opcao) == 0:
